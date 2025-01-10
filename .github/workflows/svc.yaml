@@ -48,4 +48,6 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ steps.build.outputs.TAGNAME }}
+        files: |
+          crack/*
         
