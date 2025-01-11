@@ -26,7 +26,7 @@ echo "download $VERSION crack files..."
 mkdir -p crack
 curl -s -L -o "crack/x-pack-core-$VERSION.crack.jar" "https://github.com/liasica/docker-elk/releases/download/$LATEST/x-pack-core-$VERSION.crack.jar"
 
-read -r -p "Please edit .env file, press Enter to contiune? " prompt
+read -r -p "Please edit config files, then press Enter to contiune... " -n1 -s
 
 docker compose up setup
 docker compose up -d
