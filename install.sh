@@ -26,16 +26,7 @@ echo "download $VERSION crack files..."
 mkdir -p crack
 curl -s -L -o "crack/x-pack-core-$VERSION.crack.jar" "https://github.com/liasica/docker-elk/releases/download/$LATEST/x-pack-core-$VERSION.crack.jar"
 
-read -r -p "Please edit .env file, do you wan't contiune? [y/Y] " prompt
-case "$prompt" in
-  [yY])
-    echo "Start deploy..."
-    ;;
-  *)
-    echo "Exit deploy"
-    exit 1
-    ;;
-esac
+read -r -p "Please edit .env file, press Enter to contiune? " prompt
 
 docker compose up setup
 docker compose up -d
