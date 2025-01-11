@@ -47,6 +47,7 @@ services:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - ./crack/x-pack-core-${ELASTIC_VERSION}.crack.jar:/usr/share/elasticsearch/modules/x-pack-core/x-pack-core-${ELASTIC_VERSION}.jar
       - elasticsearch:/usr/share/elasticsearch/data:Z
     ports:
       - 9200:9200
