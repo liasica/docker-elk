@@ -70,7 +70,7 @@ output.elasticsearch:
     certificate_authorities: [ /usr/share/metricbeat/ca.crt ]
 
 ## HTTP endpoint for health checking
-## https://www.elastic.co/guide/en/beats/metricbeat/current/http-endpoint.html
+## https://www.elastic.co/docs/reference/beats/metricbeat/http-endpoint
 #
 
 http:
