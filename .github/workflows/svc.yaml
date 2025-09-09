@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Build Docker image
       id: build
@@ -33,7 +33,7 @@ jobs:
         docker build --build-arg ELASTIC_VERSION=${ELASTIC_VERSION} -t $DOCKER_IMAGE svc
         docker run --rm -v ${PWD}/crack:/crack/output --name $DOCKER_CONTAINER $DOCKER_IMAGE bash build_crack_jar.sh
 
-    - uses: actions/github-script@v7
+    - uses: actions/github-script@v8
       id: push-tag
       with:
         script: |
