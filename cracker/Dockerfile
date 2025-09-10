@@ -1,8 +1,8 @@
 ARG ELASTIC_VERSION
 
-FROM docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION} AS baseline
+FROM docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION:-9.1.3} AS baseline
 
-FROM openjdk:17-jdk-buster
+FROM bellsoft/liberica-openjdk-debian:17
 
 ARG ELASTIC_VERSION
 ARG HTTP_PROXY
