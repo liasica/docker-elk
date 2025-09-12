@@ -23,8 +23,7 @@ rm "$VERSION.tar.gz"
 cd $DIRECTORY || exit 1
 
 echo "download $VERSION crack files..."
-mkdir -p crack
-curl -s -L -o "crack/x-pack-core-$VERSION.crack.jar" "https://github.com/liasica/docker-elk/releases/download/$LATEST/x-pack-core-$VERSION.crack.jar"
+curl -s -L -o "x-pack-core/x-pack-core-$VERSION.crack.jar" "https://github.com/liasica/docker-elk/releases/download/$LATEST/x-pack-core-$VERSION.crack.jar"
 
 read -r -p "Please edit config files, then press Enter to contiune... " -n1 -s
 
