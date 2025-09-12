@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DIRECTORY="${1:-elk}"
 echo "Directory is $DIRECTORY"

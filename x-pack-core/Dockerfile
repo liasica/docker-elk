@@ -13,7 +13,7 @@ WORKDIR /x-pack-core
 
 COPY --from=baseline /usr/share/elasticsearch/lib /usr/share/elasticsearch/lib
 COPY --from=baseline /usr/share/elasticsearch/modules/x-pack-core /usr/share/elasticsearch/modules/x-pack-core
-COPY build.sh /x-pack-core
+COPY . /x-pack-core
 
 RUN apt update && apt install -y zip
 

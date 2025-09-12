@@ -73,6 +73,8 @@ rm -rf x-pack-core-$version
 if [ ! -d "./output" ]; then
   mkdir ./output
 fi
+
+cp *.json ./output
 cp LicenseVerifier.* ./output
 cp TransportXPackInfoAction.* ./output
 cp x-pack-core* ./output
