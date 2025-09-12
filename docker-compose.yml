@@ -63,6 +63,7 @@ services:
       context: elasticsearch/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
+        ELASTIC_LICENSE: ${ELASTIC_LICENSE:-platinum}
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
       - elasticsearch:/usr/share/elasticsearch/data:Z
@@ -76,6 +77,7 @@ services:
       # Used to initialize the keystore during the initial startup of
       # Elasticsearch. Ignored on subsequent runs.
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      ELASTIC_LICENSE: ${ELASTIC_LICENSE:-platinum}
       # Use single node discovery in order to disable production mode and avoid bootstrap checks.
       # see: https://www.elastic.co/docs/deploy-manage/deploy/self-managed/bootstrap-checks
       discovery.type: single-node
