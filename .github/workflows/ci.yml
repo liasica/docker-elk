@@ -18,24 +18,7 @@ jobs:
       COMPOSE_PROJECT_NAME: docker-elk
 
     steps:
-      - uses: actions/checkout@v5
-
-      #####################################################
-      #                                                   #
-      # Install all dependencies required by test suites. #
-      #                                                   #
-      #####################################################
-
-      - name: Pre-build container images
-        run: >-
-          docker compose
-          -f docker-compose.yml
-          -f extensions/fleet/fleet-compose.yml
-          -f extensions/fleet/agent-apmserver-compose.yml
-          -f extensions/metricbeat/metricbeat-compose.yml
-          -f extensions/filebeat/filebeat-compose.yml
-          -f extensions/heartbeat/heartbeat-compose.yml
-          build
+      - uses: actions/checkout@v6
 
       ########################################################
       #                                                      #
@@ -56,22 +39,35 @@ jobs:
           -e 's/\(BEATS_SYSTEM_PASSWORD=\)'\'\''/\1testpasswd/g'
           .env
 
+      # Elasticsearch's high disk watermark gets regularly exceeded on GitHub Actions runners.
+      # https://www.elastic.co/guide/en/elasticsearch/reference/current/fix-watermark-errors.html
+      - name: Disable Elasticsearch disk allocation decider
+        run: |
+          docker compose up -d elasticsearch
+          .github/workflows/scripts/disable-disk-alloc-decider.sh
+
+      - name: Pre-build container images
+        run: >-
+          docker compose
+          -f docker-compose.yml
+          -f extensions/fleet/fleet-compose.yml
+          -f extensions/fleet/agent-apmserver-compose.yml
+          -f extensions/metricbeat/metricbeat-compose.yml
+          -f extensions/filebeat/filebeat-compose.yml
+          -f extensions/heartbeat/heartbeat-compose.yml
+          build
+
       - name: Generate Kibana encryption keys
         run: docker container run --rm docker-elk-kibana bin/kibana-encryption-keys generate -q >>kibana/config/kibana.yml
 
       - name:  Set up users and roles
-        run: docker compose up setup
+        run: docker compose up --exit-code-from=setup setup
 
       #############################
       #                           #
       # Test core and extensions. #
       #                           #
       #############################
-
-      # Elasticsearch's high disk watermark gets regularly exceeded on GitHub Actions runners.
-      # https://www.elastic.co/guide/en/elasticsearch/reference/current/fix-watermark-errors.html
-      - name: Disable Elasticsearch disk allocation decider
-        run: .github/workflows/scripts/disable-disk-alloc-decider.sh
 
       #
       # Core components: Elasticsearch, Logstash, Kibana
@@ -148,7 +144,7 @@ jobs:
 
       - name: Upload collected troubleshooting data
         if: always() && steps.debug-data.outputs.path
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: debug-data
           path: ${{ steps.debug-data.outputs.path }}/*.*

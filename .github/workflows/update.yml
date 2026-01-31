@@ -17,7 +17,7 @@ jobs:
           - release-8.x
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           ref: ${{ matrix.branch }}
           sparse-checkout-cone-mode: false
@@ -29,7 +29,7 @@ jobs:
           : ${ELASTIC_VERSION:?unset}
           echo "version=${ELASTIC_VERSION}" >>"$GITHUB_OUTPUT"
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
       - run: npm install semver
 
       - name: Get latest release version
@@ -70,7 +70,7 @@ jobs:
       # Removes untracked files created by npm (node_modules/, package.json, ...).
       # Disables previous sparse checkout.
       - name: Clean checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         if: steps.get-latest-release.outputs.result && fromJson(steps.get-latest-release.outputs.result).version != steps.current-release.outputs.version
         with:
           ref: ${{ matrix.branch }}
@@ -109,7 +109,7 @@ jobs:
 
       - name: Send pull request to update to new version
         if: steps.update-files.outputs.has-changes
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ steps.generate-token.outputs.token }}
           branch: update/${{ matrix.branch }}

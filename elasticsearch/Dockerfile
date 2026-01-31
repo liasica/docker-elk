@@ -1,7 +1,7 @@
 ARG ELASTIC_VERSION
 
 # https://www.docker.elastic.co/
-FROM docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION:-9.1.5}
+FROM docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION:-9.2.4}
 
 ARG ELASTIC_LICENSE
 ENV ELASTIC_LICENSE=${ELASTIC_LICENSE:-platinum}
