@@ -11,14 +11,14 @@ jobs:
   test:
     name: Test suite
     # List of supported runners:
-    # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners
-    runs-on: ubuntu-22.04
+    # https://docs.github.com/en/actions/concepts/runners/github-hosted-runners
+    runs-on: ubuntu-26.04
 
     env:
       COMPOSE_PROJECT_NAME: docker-elk
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       ########################################################
       #                                                      #
@@ -38,13 +38,6 @@ jobs:
           -e 's/\(MONITORING_INTERNAL_PASSWORD=\)'\'\''/\1testpasswd/g'
           -e 's/\(BEATS_SYSTEM_PASSWORD=\)'\'\''/\1testpasswd/g'
           .env
-
-      # Elasticsearch's high disk watermark gets regularly exceeded on GitHub Actions runners.
-      # https://www.elastic.co/guide/en/elasticsearch/reference/current/fix-watermark-errors.html
-      - name: Disable Elasticsearch disk allocation decider
-        run: |
-          docker compose up -d elasticsearch
-          .github/workflows/scripts/disable-disk-alloc-decider.sh
 
       - name: Pre-build container images
         run: >-
@@ -144,7 +137,7 @@ jobs:
 
       - name: Upload collected troubleshooting data
         if: always() && steps.debug-data.outputs.path
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: debug-data
           path: ${{ steps.debug-data.outputs.path }}/*.*
